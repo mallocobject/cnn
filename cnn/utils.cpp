@@ -285,6 +285,51 @@ Tensor2D Utils::im2col(const Tensor4D& input, size_t filter_h, size_t filter_w, 
 	return result;
 }
 
+//Tensor2D Utils::im2col_(const Tensor4D& input, size_t filter_h, size_t filter_w, size_t stride, size_t padding)
+//{
+//	const auto& dims = input.dimensions();
+//	eidx N = dims[0];
+//	eidx C = dims[1];
+//	eidx H = dims[2];
+//	eidx W = dims[3];
+//	if ((N * C * H * W) == 0)
+//	{
+//		throw std::invalid_argument("输入张量为空，无法应用 im2col");
+//	}
+//	if (filter_h > H || filter_w > W)
+//	{
+//		throw std::invalid_argument("卷积核大于图像，无法应用 im2col");
+//	}
+//
+//	eidx filter_h_idx = static_cast<eidx>(filter_h);
+//	eidx filter_w_idx = static_cast<eidx>(filter_w);
+//	eidx stride_idx = static_cast<eidx>(stride);
+//	eidx padding_idx = static_cast<eidx>(padding);
+//
+//	eidx output_h_idx = (H + 2 * padding_idx - filter_h_idx) / stride_idx + 1;
+//	eidx output_w_idx = (W + 2 * padding_idx - filter_w_idx) / stride_idx + 1;
+//
+//	Tensor4D img(N, C, H + 2 * padding_idx, W + 2 * padding_idx);
+//	img.setZero();
+//
+//	// 复制输入到填充张量的中心
+//	Eigen::array<Eigen::Index, 4> offsets = { 0, 0, padding_idx, padding_idx };
+//	Eigen::array<Eigen::Index, 4> extents = { N, C, H, W };
+//	img.slice(offsets, extents) = input;
+//
+//	Tensor6D col(N, C, filter_h_idx, filter_w_idx, output_h_idx, output_w_idx);
+//	col.setZero();
+//
+//	for (eidx y = 0; y < output_h_idx; y++)
+//	{
+//		eidx y_min = y * stride;
+//		eidx y_max = y_min + filter_h_idx;
+//		eidx y_start = y * out
+//	}
+//
+//	return result;
+//}
+
 Tensor4D Utils::col2im(const Tensor2D& col, Tensor4D::Dimensions input_shape, size_t filter_h, size_t filter_w, size_t stride, size_t padding)
 {
 	eidx N = input_shape[0];

@@ -3,6 +3,7 @@
 #include "relu.h"
 #include "softmax_with_loss.h"
 #include "dropout.h"
+#include "affine.h"
 #include <opencv2/opencv.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
@@ -481,6 +482,158 @@
 //		std::cout << std::endl;
 //	}
 //}
+
+//TEST(Shuffle, Tensor)
+//{
+	//Tensor3D input(2, 3, 4);
+	//input.setRandom();
+	//std::cout << input.dimensions().size();
+	/*for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			for (int k = 0; k < 4; k++)
+			{
+
+				std::cout << "  " << input(i, j, k);
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	Tensor3D output = input.shuffle(Eigen::array<Eigen::Index, 3>{1, 2, 0});
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			for (int k = 0; k < 2; k++)
+			{
+
+				std::cout << "  " << output(i, j, k);
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}*/
+	//}
+
+TEST(Affine, RowMatrix)
+{
+	RowMatrix w(3, 2);
+	w << 1, 2,
+		4, 5,
+		7, 8;
+	BiasVector b(2, 1);
+	b << 4, 6;
+	Affine aff(w, b);
+	RowMatrix x(2, 3);
+	x << 1, 2, 3,
+		4, 5, 6;
+	RowMatrix y = aff.forward(x);
+	for (int i = 0; i < y.rows(); i++)
+	{
+		for (int j = 0; j < y.cols(); j++)
+		{
+			std::cout << "  " << y(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	Tensor2D z = aff.backward_2D(y);
+	for (int i = 0; i < z.dimension(0); i++)
+	{
+		for (int j = 0; j < z.dimension(1); j++)
+		{
+			std::cout << "  " << z(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
+
+TEST(Affine, Tensor2D)
+{
+	RowMatrix w(3, 2);
+	w << 1, 2,
+		4, 5,
+		7, 8;
+	BiasVector b(2, 1);
+	b << 4, 6;
+	Affine aff(w, b);
+	Tensor2D x(2, 3);
+	x.setValues({
+		{1, 2, 3},
+		{4, 5, 6}
+		});
+	RowMatrix y = aff.forward(x);
+	for (int i = 0; i < y.rows(); i++)
+	{
+		for (int j = 0; j < y.cols(); j++)
+		{
+			std::cout << "  " << y(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	Tensor2D z = aff.backward_2D(y);
+	for (int i = 0; i < z.dimension(0); i++)
+	{
+		for (int j = 0; j < z.dimension(1); j++)
+		{
+			std::cout << "  " << z(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
+
+TEST(Affine, Tensor4D)
+{
+	RowMatrix w(6, 1);
+	w << 1, 2,
+		4, 5,
+		7, 8;
+	BiasVector b(1, 1);
+	b << 4;
+	Affine aff(w, b);
+	Tensor4D x(1, 1, 2, 3);
+	x.setValues({ {
+		{
+			{1, 2, 3},
+		{4, 5, 6}
+}
+} });
+	RowMatrix y = aff.forward(x);
+	for (int i = 0; i < y.rows(); i++)
+	{
+		for (int j = 0; j < y.cols(); j++)
+		{
+			std::cout << "  " << y(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	Tensor4D z = aff.backward_4D(y);
+	for (int i = 0; i < z.dimension(0); i++)
+	{
+		for (int j = 0; j < z.dimension(1); j++)
+		{
+			for (int k = 0; k < z.dimension(2); k++)
+			{
+				for (int l = 0; l < z.dimension(3); l++)
+				{
+					std::cout << "  " << z(i, j, k, l);
+				}
+				std::cout << std::endl;
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	std::cout << z.dimensions() << std::endl;
+}
 
 
 int main()

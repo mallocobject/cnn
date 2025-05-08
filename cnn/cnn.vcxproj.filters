@@ -27,6 +27,12 @@
     <ClCompile Include="softmax_with_loss.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="dropout.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="affine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -39,6 +45,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="softmax_with_loss.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dropout.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="affine.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

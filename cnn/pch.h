@@ -9,6 +9,7 @@ using Tensor2D = Eigen::Tensor<float, 2, Eigen::RowMajor>;
 using RowMatrix = Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
 using ImageTensor = Eigen::Tensor<uint8_t, 4, Eigen::RowMajor>;
 using LabelVector = Eigen::Matrix<uint8_t, -1, Eigen::RowMajor>;
+using BiasVector = Eigen::Matrix<float, -1, Eigen::RowMajor>;
 using MaskMatrix = Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
 
 using eidx = Eigen::Index;

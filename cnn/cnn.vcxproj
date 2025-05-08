@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="affine.cpp" />
     <ClCompile Include="dropout.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="relu.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="affine.h" />
     <ClInclude Include="dropout.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="relu.h" />

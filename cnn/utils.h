@@ -21,6 +21,9 @@ namespace Utils
 
 	Tensor2D im2col(const Tensor4D& input,
 		size_t filter_h, size_t filter_w, size_t stride = 1, size_t padding = 0);
+	Tensor2D im2col_(const Tensor4D& input,
+		size_t filter_h, size_t filter_w, size_t stride = 1, size_t padding = 0);
+
 	Tensor4D col2im(const Tensor2D& col, Tensor4D::Dimensions input_shape,
 		size_t filter_h, size_t filter_w, size_t stride = 1, size_t padding = 0);
 	Tensor4D col2im(const RowMatrix& col, Tensor4D::Dimensions input_shape,
