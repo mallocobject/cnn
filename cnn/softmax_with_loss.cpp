@@ -1,6 +1,5 @@
 #include "softmax_with_loss.h"
 #include "utils.h"
-#include <Eigen/dense>
 
 float SoftmaxWithLoss::forward(const RowMatrix& x, const LabelVector& t)
 {

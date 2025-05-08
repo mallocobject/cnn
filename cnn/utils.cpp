@@ -42,21 +42,32 @@ void Utils::read_images(const std::string& path, ImageTensor& images, ImageInfo&
 
 	// 读取所有图像数据
 	const size_t image_size = rows * cols;
-	char* buffer = new char[image_size];
+	//std::vector<unsigned char> buffer(image_size);
+	Eigen::Tensor<uint8_t, 2, Eigen::RowMajor> buffer(1, image_size);
 	for (uint32_t i = 0; i < num_images; ++i)
 	{
 		// 读取一张图像
-		file.read(reinterpret_cast<char*>(buffer), image_size);
-		for (uint32_t r = 0; r < rows; ++r)
+		file.read(reinterpret_cast<char*>(buffer.data()), image_size);
+		/*for (uint32_t r = 0; r < rows; ++r)
 		{
 			for (uint32_t c = 0; c < cols; ++c)
 			{
 				images(i, 0, r, c) = buffer[r * cols + c];
 			}
-		}
+		}*/
+		/*Eigen::TensorMap<Eigen::Tensor<unsigned char, 2>> buffer_tensor(
+			buffer.data(), rows, cols);*/
+		Eigen::array<Eigen::Index, 4> offsets = { i, 0, 0, 0 };
+		Eigen::array<Eigen::Index, 4> extents = { 1, 1, rows, cols };
+		Eigen::array<Eigen::Index, 2> slice_shape = { 1, image_size };
+		images.slice(offsets, extents).reshape(slice_shape) = buffer;
+		//cv::Mat image_tmp(rows, cols, CV_8UC1, buffer.data());
+		//// resize bigger for showing
+		//cv::resize(image_tmp, image_tmp, cv::Size(100, 100));
+		//cv::imshow("picture", image_tmp);
+		//cv::waitKey(0);
 	}
 
-	delete[] buffer;
 	file.close();
 }
 

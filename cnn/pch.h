@@ -1,5 +1,6 @@
 #pragma once
 #include <unsupported/Eigen/CXX11/Tensor>
+#include <Eigen/dense>
 
 using Tensor4D = Eigen::Tensor<float, 4, Eigen::RowMajor>;
 using Tensor3D = Eigen::Tensor<float, 3, Eigen::RowMajor>;

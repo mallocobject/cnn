@@ -130,12 +130,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dropout.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="relu.cpp" />
     <ClCompile Include="softmax_with_loss.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dropout.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="relu.h" />
     <ClInclude Include="softmax_with_loss.h" />

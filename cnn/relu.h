@@ -6,11 +6,6 @@ class ReLU
 {
 public:
 	ReLU() = default;
-	~ReLU()
-	{
-		delete mask;  // –¬∞Êc++‘ –Ìdeleteø’÷∏’Î
-		mask = nullptr;
-	}
 
 	RowMatrix forward(const RowMatrix& x);
 	Tensor2D forward(const Tensor2D& x);
@@ -22,5 +17,5 @@ public:
 
 
 private:
-	MaskMatrix* mask = nullptr;
+	MaskMatrix mask_;
 };

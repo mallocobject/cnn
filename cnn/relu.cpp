@@ -1,5 +1,4 @@
 #include "relu.h"
-#include <Eigen/dense>
 
 RowMatrix ReLU::forward(const RowMatrix& x)
 {
@@ -9,12 +8,9 @@ RowMatrix ReLU::forward(const RowMatrix& x)
 	{
 		throw std::invalid_argument("ReLU ÊäÈë¾ØÕóÎª¿Õ");
 	}
-	if (mask != nullptr)
-	{
-		delete mask;
-	}
-	mask = new MaskMatrix(rows, cols);
-	*mask = (x.array() <= 0).cast<bool>();
+
+	mask_.resize(rows, cols);
+	mask_ = (x.array() <= 0).cast<bool>().matrix();
 	RowMatrix result = x.array().max(0.0f);
 
 	return result;
@@ -68,7 +64,7 @@ RowMatrix ReLU::backward(const RowMatrix& dout)
 		throw std::invalid_argument("ReLU ÊäÈë¾ØÕóÎª¿Õ");
 	}
 
-	RowMatrix result = dout - (dout.array() * mask->array().cast<float>()).matrix();
+	RowMatrix result = dout - (dout.array() * mask_.array().cast<float>()).matrix();
 	return result;
 }
 

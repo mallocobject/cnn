@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "relu.h"
 #include "softmax_with_loss.h"
+#include "dropout.h"
 #include <opencv2/opencv.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
@@ -203,49 +204,157 @@
 //	}
 //}
 
-TEST(SoftmaxWithLoss, RowMatrix)
-{
-	SoftmaxWithLoss sl;
-	RowMatrix x(2, 3);
-	x << 2, 4, 6,
-		0.6, 9.1, -4.2;
-	LabelVector t(2);
-	t << 0, 1;
-	float loss = sl.forward(x, t);
-	std::cout << loss << std::endl;
-	RowMatrix dx = sl.backward();
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			std::cout << '\t' << dx(i, j);
-		}
-		std::cout << std::endl;
-	}
-}
+//TEST(SoftmaxWithLoss, RowMatrix)
+//{
+//	SoftmaxWithLoss sl;
+//	RowMatrix x(2, 3);
+//	x << 2, 4, 6,
+//		0.6, 9.1, -4.2;
+//	LabelVector t(2);
+//	t << 0, 1;
+//	float loss = sl.forward(x, t);
+//	std::cout << loss << std::endl;
+//	RowMatrix dx = sl.backward();
+//	for (int i = 0; i < 2; i++)
+//	{
+//		for (int j = 0; j < 3; j++)
+//		{
+//			std::cout << '\t' << dx(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//}
+//
+//TEST(SoftmaxWithLoss, Tensor2D)
+//{
+//	SoftmaxWithLoss sl;
+//	Tensor2D x(2, 3);
+//	x.setValues({
+//		{2, 4, 6},
+//		{0.6, 9.1, -4.2 }
+//		});
+//	LabelVector t(2);
+//	t << 0, 1;
+//	float loss = sl.forward(x, t);
+//	std::cout << loss << std::endl;
+//	Tensor2D dx = Eigen::TensorMap<Tensor2D>(sl.backward().data(), 2, 3);
+//	for (int i = 0; i < 2; i++)
+//	{
+//		for (int j = 0; j < 3; j++)
+//		{
+//			std::cout << '\t' << dx(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//}
 
-TEST(SoftmaxWithLoss, Tensor2D)
-{
-	SoftmaxWithLoss sl;
-	Tensor2D x(2, 3);
-	x.setValues({
-		{2, 4, 6},
-		{0.6, 9.1, -4.2 }
-		});
-	LabelVector t(2);
-	t << 0, 1;
-	float loss = sl.forward(x, t);
-	std::cout << loss << std::endl;
-	Tensor2D dx = Eigen::TensorMap<Tensor2D>(sl.backward().data(), 2, 3);
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			std::cout << '\t' << dx(i, j);
-		}
-		std::cout << std::endl;
-	}
-}
+//TEST(Dropout, RowMatrix)
+//{
+//	Dropout dp;
+//	RowMatrix x(2, 3);
+//	x << 1, 2, 3,
+//		4, 5, 6;
+//	RowMatrix y = dp.forward(x, true);
+//	for (int i = 0; i < 2; i++)
+//	{
+//		for (int j = 0; j < 3; j++)
+//		{
+//			std::cout << '\t' << y(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//	RowMatrix dout = RowMatrix::Ones(2, 3);
+//	RowMatrix dx = dp.backward(dout);
+//	for (int i = 0; i < 2; i++)
+//	{
+//		for (int j = 0; j < 3; j++)
+//		{
+//			std::cout << '\t' << dx(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//}
+//
+//TEST(Dropout, Tensor2D)
+//{
+//	Dropout dp;
+//	Tensor2D x(2, 3);
+//	x.setValues({
+//		{1, 2, 3},
+//		{4, 5, 6}
+//		});
+//	Tensor2D y = dp.forward(x, true);
+//	for (int i = 0; i < 2; i++)
+//	{
+//		for (int j = 0; j < 3; j++)
+//		{
+//			std::cout << '\t' << y(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//	Tensor2D dout(2, 3);
+//	dout.setConstant(1);
+//	Tensor2D dx = dp.backward(dout);
+//	for (int i = 0; i < 2; i++)
+//	{
+//		for (int j = 0; j < 3; j++)
+//		{
+//			std::cout << '\t' << dx(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//}
+//
+//TEST(Dropout, Tensor4D)
+//{
+//	Dropout dp;
+//	Tensor4D x(1, 2, 1, 3);
+//	x.setValues({
+//		{{{1, 2, 3}},
+//		{{4, 5, 6}}}
+//		});
+//	Tensor4D y = dp.forward(x, true);
+//	for (int i = 0; i < 1; i++)
+//	{
+//		for (int j = 0; j < 2; j++)
+//		{
+//			for (int k = 0; k < 1; k++)
+//			{
+//				for (int l = 0; l < 3; l++)
+//				{
+//					std::cout << std::setw(4) << y(i, j, k, l);
+//				}
+//				std::cout << std::endl;
+//			}
+//			std::cout << std::endl;
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//	Tensor4D dout(1, 2, 1, 3);
+//	dout.setConstant(1);
+//	Tensor4D dx = dp.backward(dout);
+//	for (int i = 0; i < 1; i++)
+//	{
+//		for (int j = 0; j < 2; j++)
+//		{
+//			for (int k = 0; k < 1; k++)
+//			{
+//				for (int l = 0; l < 3; l++)
+//				{
+//					std::cout << std::setw(4) << dx(i, j, k, l);
+//				}
+//				std::cout << std::endl;
+//			}
+//			std::cout << std::endl;
+//		}
+//		std::cout << std::endl;
+//	}
+//}
 
 
 int main()
