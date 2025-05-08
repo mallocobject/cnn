@@ -356,6 +356,132 @@
 //	}
 //}
 
+//TEST(Im2col, IMG)
+//{
+//	/*ImageTensor images;
+//	ImageInfo image_info;
+//	LabelVector labels;
+//	Utils::read_images(train_image_path, images, image_info);
+//	Eigen::array<Eigen::Index, 4> offsets = { 0, 0, 0, 0 };
+//	Eigen::array<Eigen::Index, 4> extents = { 1, 1, 28, 28 };
+//	Tensor4D img = images.slice(offsets, extents).cast<float>();
+//	std::cout << img.dimensions()[0] << std::endl;
+//	std::cout << img.dimensions()[1] << std::endl;
+//	std::cout << img.dimensions()[2] << std::endl;
+//	std::cout << img.dimensions()[3] << std::endl;*/
+//	Tensor4D img(1, 1, 2, 3);
+//	img.setValues({ {
+//		{
+//			{1, 2, 3},
+//		{4, 5, 6}
+//}
+//} });
+//	const auto& shape = img.dimensions();
+//
+//	Tensor2D col = Utils::im2col(img, 2, 2, 1, 1);
+//	size_t rows = col.dimensions()[0];
+//	size_t cols = col.dimensions()[1];
+//	for (int i = 0; i < rows; i++)
+//	{
+//		for (int j = 0; j < cols; j++)
+//		{
+//			std::cout << "  " << col(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//
+//	Tensor4D y = Utils::col2im(col, shape, 2, 2, 1, 1);
+//	const auto& y_dims = y.dimensions();
+//	for (int i = 0; i < y_dims[0]; i++)
+//	{
+//		for (int j = 0; j < y_dims[1]; j++)
+//		{
+//			for (int k = 0; k < y_dims[2]; k++)
+//			{
+//				for (int l = 0; l < y_dims[3]; l++)
+//				{
+//					std::cout << "  " << y(i, j, k, l);
+//				}
+//				std::cout << std::endl;
+//			}
+//			std::cout << std::endl;
+//		}
+//		std::cout << std::endl;
+//	}
+//}
+//
+//
+//TEST(Im2col, matrix)
+//{
+//	Tensor4D img(1, 1, 2, 3);
+//	img.setValues({ {
+//		{
+//			{1, 2, 3},
+//		{4, 5, 6}
+//}
+//} });
+//	const auto& shape = img.dimensions();
+//
+//	Tensor2D col = Utils::im2col(img, 2, 2, 1, 1);
+//	size_t rows = col.dimensions()[0];
+//	size_t cols = col.dimensions()[1];
+//	for (int i = 0; i < rows; i++)
+//	{
+//		for (int j = 0; j < cols; j++)
+//		{
+//			std::cout << "  " << col(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//
+//	RowMatrix col_matrix = Eigen::Map<const RowMatrix>(col.data(), rows, cols);
+//	Tensor4D y = Utils::col2im(col_matrix, shape, 2, 2, 1, 1);
+//	const auto& y_dims = y.dimensions();
+//	for (int i = 0; i < y_dims[0]; i++)
+//	{
+//		for (int j = 0; j < y_dims[1]; j++)
+//		{
+//			for (int k = 0; k < y_dims[2]; k++)
+//			{
+//				for (int l = 0; l < y_dims[3]; l++)
+//				{
+//					std::cout << "  " << y(i, j, k, l);
+//				}
+//				std::cout << std::endl;
+//			}
+//			std::cout << std::endl;
+//		}
+//		std::cout << std::endl;
+//	}
+//}
+
+//TEST(STRIDE, None)
+//{
+//	Tensor2D m(3, 4);
+//	m.setRandom();
+//	for (int i = 0; i < 3; i++)
+//	{
+//		for (int j = 0; j < 4; j++)
+//		{
+//			std::cout << "  " << m(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//	Eigen::array<Eigen::Index, 2> strides = { 2, 2 };
+//	Tensor2D m_strided = m.stride(strides);
+//	for (int i = 0; i < m_strided.dimensions()[0]; i++)
+//	{
+//		for (int j = 0; j < m_strided.dimensions()[1]; j++)
+//		{
+//			std::cout << "  " << m_strided(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//}
+
 
 int main()
 {

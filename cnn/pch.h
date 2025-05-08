@@ -2,6 +2,7 @@
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <Eigen/dense>
 
+using Tensor6D = Eigen::Tensor<float, 6, Eigen::RowMajor>;
 using Tensor4D = Eigen::Tensor<float, 4, Eigen::RowMajor>;
 using Tensor3D = Eigen::Tensor<float, 3, Eigen::RowMajor>;
 using Tensor2D = Eigen::Tensor<float, 2, Eigen::RowMajor>;
@@ -9,6 +10,8 @@ using RowMatrix = Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::Ro
 using ImageTensor = Eigen::Tensor<uint8_t, 4, Eigen::RowMajor>;
 using LabelVector = Eigen::Matrix<uint8_t, -1, Eigen::RowMajor>;
 using MaskMatrix = Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+
+using eidx = Eigen::Index;
 
 struct ImageInfo
 {

@@ -19,6 +19,10 @@ namespace Utils
 	float crossEntropyError(const RowMatrix& y, const LabelVector& t);
 	float crossEntropyError(const Tensor2D& y, const LabelVector& t);
 
-	/*RowMatrix im2col(const EigenTensor4D& input, const ConvParams& params);
-	RowMatrix col2im(const EigenTensor4D& conv_output);*/
+	Tensor2D im2col(const Tensor4D& input,
+		size_t filter_h, size_t filter_w, size_t stride = 1, size_t padding = 0);
+	Tensor4D col2im(const Tensor2D& col, Tensor4D::Dimensions input_shape,
+		size_t filter_h, size_t filter_w, size_t stride = 1, size_t padding = 0);
+	Tensor4D col2im(const RowMatrix& col, Tensor4D::Dimensions input_shape,
+		size_t filter_h, size_t filter_w, size_t stride = 1, size_t padding = 0);
 }
