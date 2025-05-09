@@ -432,6 +432,6 @@ Tensor4D Utils::col2im(const RowMatrix& col, Tensor4D::Dimensions input_shape, s
 	{
 		throw std::invalid_argument("col2im 输入矩阵为空");
 	}
-	Tensor2D col_tensor = Eigen::TensorMap<const Tensor2D>(col.data(), rows, cols);
+	auto col_tensor = Eigen::TensorMap<const Tensor2D>(col.data(), rows, cols);
 	return col2im(col_tensor, input_shape, filter_h, filter_w, stride, padding);
 }

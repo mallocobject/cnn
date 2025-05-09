@@ -10,18 +10,17 @@ public:
 	{
 	}
 
-	RowMatrix forward(const RowMatrix& x);
-	RowMatrix forward(const Tensor2D& x);
-	RowMatrix forward(const Tensor4D& x);
-	Tensor2D backward_2D(const RowMatrix& dout);
-	Tensor4D backward_4D(const RowMatrix& dout);
+	Tensor2D forward(const Tensor2D& x);
+	Tensor2D forward(const Tensor4D& x);
+	TensorVariant backward(const Tensor2D& dout);
 
 
 private:
 	RowMatrix w_;
 	BiasVector b_;
-	RowMatrix x_;
+	Tensor2D x_;
 	Tensor4D::Dimensions original_x_shape_;
+	bool input_is_4D = false;
 	RowMatrix dw_;
 	BiasVector db_;
 };
