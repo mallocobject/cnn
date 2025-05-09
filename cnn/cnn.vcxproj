@@ -134,6 +134,7 @@
     <ClCompile Include="convolution.cpp" />
     <ClCompile Include="dropout.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pooling.cpp" />
     <ClCompile Include="relu.cpp" />
     <ClCompile Include="softmax_with_loss.cpp" />
     <ClCompile Include="utils.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="convolution.h" />
     <ClInclude Include="dropout.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="pooling.h" />
     <ClInclude Include="relu.h" />
     <ClInclude Include="softmax_with_loss.h" />
     <ClInclude Include="utils.h" />

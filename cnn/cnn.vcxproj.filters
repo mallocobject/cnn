@@ -36,6 +36,9 @@
     <ClCompile Include="convolution.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="pooling.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -57,6 +60,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="convolution.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pooling.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

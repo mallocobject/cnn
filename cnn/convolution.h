@@ -19,7 +19,7 @@ private:
 	BiasVector b_;
 	size_t stride_;
 	size_t padding_;
-	Tensor4D x_;
+	Tensor4D::Dimensions x_shape_;
 	Tensor2D col_x_;
 	Tensor2D col_w_;
 	Tensor4D dw_;

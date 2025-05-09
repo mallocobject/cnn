@@ -31,7 +31,7 @@ Tensor4D Convolution::forward(const Tensor4D& x)
 
 	col_x_ = Utils::im2col(x, FH, FW, stride_, padding_);
 	col_w_ = w_.reshape(vec(2, FN, C * FH * FW));  // 未转置，与py不同
-	x_ = x;
+	x_shape_ = x.dimensions();
 
 	auto col_w_matrix = t2m(col_w_);
 	auto col_x_matrix = t2m(col_x_);
@@ -78,5 +78,5 @@ Tensor4D Convolution::backward(const Tensor4D& dout)
 	auto col_w_matrix = t2m(col_w_);
 	RowMatrix dcol = dout_flat_matrix * col_w_matrix;
 	auto dcol_tensor = m2t(dcol);
-	return Utils::col2im(dcol_tensor, x_.dimensions(), FH, FW, stride_, padding_);
+	return Utils::col2im(dcol_tensor, x_shape_, FH, FW, stride_, padding_);
 }

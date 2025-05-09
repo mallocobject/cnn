@@ -25,11 +25,10 @@ Tensor2D ReLU::forward(const Tensor2D& x)
 	{
 		throw std::invalid_argument("ReLU 输入矩阵为空");
 	}
-	RowMatrix x_matrix = Eigen::Map<const RowMatrix>(x.data(), rows, cols);
+	/*RowMatrix x_matrix = Eigen::Map<const RowMatrix>(x.data(), rows, cols);*/
+	auto x_matrix = ct2m(x);
 	RowMatrix result_matrix = forward(x_matrix);  // 转给RowMatrix版本函数处理
-	Tensor2D result;
-	result.resize(dims);
-	Eigen::Map<RowMatrix>(result.data(), rows, cols) = result_matrix;
+	Tensor2D result = m2t(result_matrix);
 
 	return result;
 }
@@ -77,11 +76,10 @@ Tensor2D ReLU::backward(const Tensor2D& dout)
 	{
 		throw std::invalid_argument("ReLU 输入矩阵为空");
 	}
-	RowMatrix x_matrix = Eigen::Map<const RowMatrix>(dout.data(), rows, cols);
+	//RowMatrix x_matrix = Eigen::Map<const RowMatrix>(dout.data(), rows, cols);
+	auto x_matrix = ct2m(dout);
 	RowMatrix result_matrix = backward(x_matrix);
-	Tensor2D result;
-	result.resize(dims);
-	Eigen::Map<RowMatrix>(result.data(), rows, cols) = result_matrix;
+	Tensor2D result = m2t(result_matrix);
 
 	return result;
 }

@@ -5,6 +5,7 @@
 #include "dropout.h"
 #include "affine.h"
 #include "convolution.h"
+#include "pooling.h"
 #include <opencv2/opencv.hpp>
 #include <gtest/gtest.h>
 #include <iostream>
@@ -128,14 +129,14 @@
 //TEST(RELU, EigenTensor2D)
 //{
 //	ReLU relu;
-//	EigenTensor2D x(4, 3);
+//	Tensor2D x(4, 3);
 //	x.setValues({
 //		{0.3, 0.4, 0.3},
 //		{0.5, 0.2, -0.3},
 //		{-0.1, 0.8, 0.1},
 //		{0.5, -0.5, 0}
 //		});
-//	EigenTensor2D y = relu.forward(x);
+//	Tensor2D y = relu.forward(x);
 //	for (int i = 0; i < 4; i++)
 //	{
 //		for (int j = 0; j < 3; j++)
@@ -145,9 +146,9 @@
 //		std::cout << std::endl;
 //	}
 //	std::cout << std::endl;
-//	EigenTensor2D dout(4, 3);
+//	Tensor2D dout(4, 3);
 //	dout.setConstant(1);
-//	EigenTensor2D dx = relu.backward(dout);
+//	Tensor2D dx = relu.backward(dout);
 //	for (int i = 0; i < 4; i++)
 //	{
 //		for (int j = 0; j < 3; j++)
@@ -161,12 +162,12 @@
 //TEST(RELU, EigenTensor4D)
 //{
 //	ReLU relu;
-//	EigenTensor4D x(1, 2, 1, 3);
+//	Tensor4D x(1, 2, 1, 3);
 //	x.setValues({
 //		{{{0.1, -0.2, 0.3}},
 //		{{0.5, -0.9, 0.5}}}
 //		});
-//	EigenTensor4D y = relu.forward(x);
+//	Tensor4D y = relu.forward(x);
 //	std::cout << std::endl;
 //	for (int i = 0; i < 1; i++)
 //	{
@@ -185,9 +186,9 @@
 //		std::cout << std::endl;
 //	}
 //	std::cout << std::endl;
-//	EigenTensor4D dout(1, 2, 1, 3);
+//	Tensor4D dout(1, 2, 1, 3);
 //	dout.setConstant(1);
-//	EigenTensor4D dx = relu.backward(dout);
+//	Tensor4D dx = relu.backward(dout);
 //	for (int i = 0; i < 1; i++)
 //	{
 //		for (int j = 0; j < 2; j++)
@@ -489,69 +490,67 @@
 	//Tensor3D input(2, 3, 4);
 	//input.setRandom();
 	//std::cout << input.dimensions().size();
-	/*for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			for (int k = 0; k < 4; k++)
-			{
-
-				std::cout << "  " << input(i, j, k);
-			}
-			std::cout << std::endl;
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-	Tensor3D output = input.shuffle(Eigen::array<Eigen::Index, 3>{1, 2, 0});
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			for (int k = 0; k < 2; k++)
-			{
-
-				std::cout << "  " << output(i, j, k);
-			}
-			std::cout << std::endl;
-		}
-		std::cout << std::endl;
-	}
-	}*/
-
-	//TEST(Affine, RowMatrix)
+	//for (int i = 0; i < 2; i++)
 	//{
-	//	RowMatrix w(3, 2);
-	//	w << 1, 2,
-	//		4, 5,
-	//		7, 8;
-	//	BiasVector b(2, 1);
-	//	b << 4, 6;
-	//	Affine aff(w, b);
-	//	RowMatrix x(2, 3);
-	//	x << 1, 2, 3,
-	//		4, 5, 6;
-	//	RowMatrix y = aff.forward(x);
-	//	for (int i = 0; i < y.rows(); i++)
+	//	for (int j = 0; j < 3; j++)
 	//	{
-	//		for (int j = 0; j < y.cols(); j++)
+	//		for (int k = 0; k < 4; k++)
 	//		{
-	//			std::cout << "  " << y(i, j);
-	//		}
-	//		std::cout << std::endl;
-	//	}
-	//	std::cout << std::endl;
-	//	Tensor2D z = aff.backward_2D(y);
-	//	for (int i = 0; i < z.dimension(0); i++)
-	//	{
-	//		for (int j = 0; j < z.dimension(1); j++)
-	//		{
-	//			std::cout << "  " << z(i, j);
+	//			std::cout << "  " << input(i, j, k);
 	//		}
 	//		std::cout << std::endl;
 	//	}
 	//	std::cout << std::endl;
 	//}
+	//std::cout << std::endl;
+	//Tensor3D output = input.shuffle(Eigen::array<Eigen::Index, 3>{1, 2, 0});
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	for (int j = 0; j < 4; j++)
+	//	{
+	//		for (int k = 0; k < 2; k++)
+	//		{
+//			std::cout << "  " << output(i, j, k);
+	//		}
+	//		std::cout << std::endl;
+	//	}
+	//	std::cout << std::endl;
+	//}
+	//}
+
+//TEST(Affine, RowMatrix)
+//{
+//	RowMatrix w(3, 2);
+//	w << 1, 2,
+//		4, 5,
+//		7, 8;
+//	BiasVector b(2, 1);
+//	b << 4, 6;
+//	Affine aff(w, b);
+//	RowMatrix x(2, 3);
+//	x << 1, 2, 3,
+//		4, 5, 6;
+//	RowMatrix y = aff.forward(x);
+//	for (int i = 0; i < y.rows(); i++)
+//	{
+//		for (int j = 0; j < y.cols(); j++)
+//		{
+//			std::cout << "  " << y(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//	Tensor2D z = aff.backward_2D(y);
+//	for (int i = 0; i < z.dimension(0); i++)
+//	{
+//		for (int j = 0; j < z.dimension(1); j++)
+//		{
+//			std::cout << "  " << z(i, j);
+//		}
+//		std::cout << std::endl;
+//	}
+//	std::cout << std::endl;
+//}
 
 //TEST(Affine, Tensor2D)
 //{
@@ -636,8 +635,6 @@
 //	std::cout << z.dimensions() << std::endl;
 //}
 
-
-
 //TEST(MAP, Map)
 //{
 //	RowMatrix m(2, 3);
@@ -661,16 +658,40 @@
 //}
 
 
-TEST(Conv, c)
+//TEST(Conv, c)
+//{
+//	Tensor4D w(1, 1, 2, 2);
+//	w.setValues({ {
+//		{
+//			{1, 2},
+//		{4, 5}
+//}
+//} });
+//	std::cout << w << std::endl;
+//	Tensor4D x(2, 1, 3, 3);
+//	x.setValues({
+//		{{{1, 2, 3},
+//		{4, 5, 6},
+//		{7, 8, 9}}},
+//		{{{1, 2, 3},
+//		{4, 5, 6},
+//		{7, 8, 9}}}
+//		});
+//	std::cout << x << std::endl;
+//	BiasVector b(1);
+//	b << 2;
+//	Convolution c(w, b, 1, 2);
+//	Tensor4D y = c.forward(x);
+//	std::cout << y.dimensions() << std::endl;
+//	std::cout << y << std::endl;
+//	Tensor4D z = c.backward(y);
+//	std::cout << z.dimensions() << std::endl;
+//	std::cout << z << std::endl;
+//}
+
+TEST(Pool, p)
 {
-	Tensor4D w(1, 1, 2, 2);
-	w.setValues({ {
-		{
-			{1, 2},
-		{4, 5}
-}
-} });
-	std::cout << w << std::endl;
+	Pooling p(2, 2, 1, 1);
 	Tensor4D x(2, 1, 3, 3);
 	x.setValues({
 		{{{1, 2, 3},
@@ -680,14 +701,10 @@ TEST(Conv, c)
 		{4, 5, 6},
 		{7, 8, 9}}}
 		});
-	std::cout << x << std::endl;
-	BiasVector b(1);
-	b << 2;
-	Convolution c(w, b);
-	Tensor4D y = c.forward(x);
+	Tensor4D y = p.forward(x);
 	std::cout << y.dimensions() << std::endl;
 	std::cout << y << std::endl;
-	Tensor4D z = c.backward(y);
+	Tensor4D z = p.backward(y);
 	std::cout << z.dimensions() << std::endl;
 	std::cout << z << std::endl;
 }

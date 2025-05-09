@@ -260,7 +260,7 @@ Tensor2D Utils::im2col(const Tensor4D& input, size_t filter_h, size_t filter_w, 
 
 					Eigen::array<eidx, 4> img_offsets = { 0, 0, h_idx, w_idx };
 					Eigen::array<eidx, 4> img_extents = { N, C, 1, 1 };
-					Tensor4D pixel = img.slice(img_offsets, img_extents);
+					auto pixel = img.slice(img_offsets, img_extents);
 
 					Eigen::array<eidx, 4> slice_offsets = { 0, 0, oh, ow };
 					Eigen::array<eidx, 4> slice_extents = { N, C, 1, 1 };
@@ -365,10 +365,8 @@ Tensor4D Utils::col2im(const Tensor2D& col, Tensor4D::Dimensions input_shape, si
 	}
 
 	// 重塑和重排 col
-	Tensor6D col_reshaped = col.reshape(
-		Eigen::array<eidx, 6>{N, out_h, out_w, C, filter_h_idx, filter_w_idx});
-	Eigen::array<eidx, 6> permute = { 0, 3, 4, 5, 1, 2 };
-	Tensor6D col_permuted = col_reshaped.shuffle(permute); // 形状 (N, C, filter_h, filter_w, out_h, out_w)
+	auto col_permuted = col.reshape(vec(6, N, out_h, out_w, C, filter_h_idx, filter_w_idx))
+		.shuffle(vec(6, 0, 3, 4, 5, 1, 2));
 
 	// 创建填充图像张量
 	eidx H_padded = H + 2 * padding_idx + stride_idx - 1;
@@ -398,13 +396,13 @@ Tensor4D Utils::col2im(const Tensor2D& col, Tensor4D::Dimensions input_shape, si
 					// 提取 col[:, :, y, x, oh, ow]
 					Eigen::array<eidx, 6> col_offsets = { 0, 0, y, x, oh, ow };
 					Eigen::array<eidx, 6> col_extents = { N, C, 1, 1, 1, 1 };
-					Tensor4D col_pixel = col_permuted.slice(col_offsets, col_extents)
+					auto col_pixel = col_permuted.slice(col_offsets, col_extents)
 						.reshape(Eigen::array<eidx, 4>{N, C, 1, 1});
 
 					// 提取 img[:, :, h_idx, w_idx]
 					Eigen::array<eidx, 4> img_offsets = { 0, 0, h_idx, w_idx };
 					Eigen::array<eidx, 4> img_extents = { N, C, 1, 1 };
-					Tensor4D img_pixel = img.slice(img_offsets, img_extents);
+					auto img_pixel = img.slice(img_offsets, img_extents);
 
 					// 累加
 					img_pixel += col_pixel;
@@ -417,9 +415,7 @@ Tensor4D Utils::col2im(const Tensor2D& col, Tensor4D::Dimensions input_shape, si
 	}
 
 	// 去除填充
-	Eigen::array<eidx, 4> final_offsets = { 0, 0, padding_idx, padding_idx };
-	Eigen::array<eidx, 4> final_extents = { N, C, H, W };
-	Tensor4D result = img.slice(final_offsets, final_extents);
+	Tensor4D result = img.slice(vec(4, 0, 0, padding_idx, padding_idx), vec(4, N, C, H, W));
 
 	return result;
 }
