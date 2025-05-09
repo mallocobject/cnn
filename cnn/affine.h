@@ -5,7 +5,7 @@
 class Affine
 {
 public:
-	Affine(const RowMatrix& w, const BiasVector& b)
+	Affine(const Tensor2D& w, const BiasVector& b)
 		:w_(w), b_(b)
 	{
 	}
@@ -16,11 +16,11 @@ public:
 
 
 private:
-	RowMatrix w_;
+	Tensor2D w_;
 	BiasVector b_;
 	Tensor2D x_;
 	Tensor4D::Dimensions original_x_shape_;
 	bool input_is_4D = false;
-	RowMatrix dw_;
+	Tensor2D dw_;
 	BiasVector db_;
 };

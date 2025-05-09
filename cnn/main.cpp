@@ -552,88 +552,92 @@
 //	std::cout << std::endl;
 //}
 
-//TEST(Affine, Tensor2D)
-//{
-//	RowMatrix w(3, 2);
-//	w << 1, 2,
-//		4, 5,
-//		7, 8;
-//	BiasVector b(2, 1);
-//	b << 4, 6;
-//	Affine aff(w, b);
-//	Tensor2D x(2, 3);
-//	x.setValues({
-//		{1, 2, 3},
-//		{4, 5, 6}
-//		});
-//	Tensor2D y = aff.forward(x);
-//	for (int i = 0; i < y.dimension(0); i++)
-//	{
-//		for (int j = 0; j < y.dimension(1); j++)
-//		{
-//			std::cout << "  " << y(i, j);
-//		}
-//		std::cout << std::endl;
-//	}
-//	std::cout << std::endl;
-//	Tensor2D z = std::get<Tensor2D>(aff.backward(y));
-//	for (int i = 0; i < z.dimension(0); i++)
-//	{
-//		for (int j = 0; j < z.dimension(1); j++)
-//		{
-//			std::cout << "  " << z(i, j);
-//		}
-//		std::cout << std::endl;
-//	}
-//	std::cout << std::endl;
-//}
-//
-//TEST(Affine, Tensor4D)
-//{
-//	RowMatrix w(6, 1);
-//	w << 1, 2,
-//		4, 5,
-//		7, 8;
-//	BiasVector b(1, 1);
-//	b << 4;
-//	Affine aff(w, b);
-//	Tensor4D x(1, 1, 2, 3);
-//	x.setValues({ {
-//		{
-//			{1, 2, 3},
-//		{4, 5, 6}
-//}
-//} });
-//	Tensor2D y = aff.forward(x);
-//	for (int i = 0; i < y.dimension(0); i++)
-//	{
-//		for (int j = 0; j < y.dimension(1); j++)
-//		{
-//			std::cout << "  " << y(i, j);
-//		}
-//		std::cout << std::endl;
-//	}
-//	std::cout << std::endl;
-//	Tensor4D z = std::get<Tensor4D>(aff.backward(y));
-//	for (int i = 0; i < z.dimension(0); i++)
-//	{
-//		for (int j = 0; j < z.dimension(1); j++)
-//		{
-//			for (int k = 0; k < z.dimension(2); k++)
-//			{
-//				for (int l = 0; l < z.dimension(3); l++)
-//				{
-//					std::cout << "  " << z(i, j, k, l);
-//				}
-//				std::cout << std::endl;
-//			}
-//			std::cout << std::endl;
-//		}
-//		std::cout << std::endl;
-//	}
-//	std::cout << std::endl;
-//	std::cout << z.dimensions() << std::endl;
-//}
+TEST(Affine, Tensor2D)
+{
+	Tensor2D w(3, 2);
+	w.setValues({
+		{1, 2},
+		{4, 5},
+		{7, 8}
+		});
+	BiasVector b(2, 1);
+	b << 4, 6;
+	Affine aff(w, b);
+	Tensor2D x(2, 3);
+	x.setValues({
+		{1, 2, 3},
+		{4, 5, 6}
+		});
+	Tensor2D y = aff.forward(x);
+	for (int i = 0; i < y.dimension(0); i++)
+	{
+		for (int j = 0; j < y.dimension(1); j++)
+		{
+			std::cout << "  " << y(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	Tensor2D z = std::get<Tensor2D>(aff.backward(y));
+	for (int i = 0; i < z.dimension(0); i++)
+	{
+		for (int j = 0; j < z.dimension(1); j++)
+		{
+			std::cout << "  " << z(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
+
+TEST(Affine, Tensor4D)
+{
+	Tensor2D w(6, 1);
+	w.setValues({
+		{1}, {2},
+		{4}, {5},
+		{7}, {8}
+		});
+	BiasVector b(1, 1);
+	b << 4;
+	Affine aff(w, b);
+	Tensor4D x(1, 1, 2, 3);
+	x.setValues({ {
+		{
+			{1, 2, 3},
+		{4, 5, 6}
+}
+} });
+	Tensor2D y = aff.forward(x);
+	for (int i = 0; i < y.dimension(0); i++)
+	{
+		for (int j = 0; j < y.dimension(1); j++)
+		{
+			std::cout << "  " << y(i, j);
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	Tensor4D z = std::get<Tensor4D>(aff.backward(y));
+	for (int i = 0; i < z.dimension(0); i++)
+	{
+		for (int j = 0; j < z.dimension(1); j++)
+		{
+			for (int k = 0; k < z.dimension(2); k++)
+			{
+				for (int l = 0; l < z.dimension(3); l++)
+				{
+					std::cout << "  " << z(i, j, k, l);
+				}
+				std::cout << std::endl;
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	std::cout << z.dimensions() << std::endl;
+}
 
 //TEST(MAP, Map)
 //{
@@ -656,7 +660,6 @@
 //	std::cout << t << std::endl;
 //	std::cout << m << std::endl;
 //}
-
 
 //TEST(Conv, c)
 //{
@@ -689,25 +692,25 @@
 //	std::cout << z << std::endl;
 //}
 
-TEST(Pool, p)
-{
-	Pooling p(2, 2, 1, 1);
-	Tensor4D x(2, 1, 3, 3);
-	x.setValues({
-		{{{1, 2, 3},
-		{4, 5, 6},
-		{7, 8, 9}}},
-		{{{1, 2, 3},
-		{4, 5, 6},
-		{7, 8, 9}}}
-		});
-	Tensor4D y = p.forward(x);
-	std::cout << y.dimensions() << std::endl;
-	std::cout << y << std::endl;
-	Tensor4D z = p.backward(y);
-	std::cout << z.dimensions() << std::endl;
-	std::cout << z << std::endl;
-}
+//TEST(Pool, p)
+//{
+//	Pooling p(2, 2, 1, 1);
+//	Tensor4D x(2, 1, 3, 3);
+//	x.setValues({
+//		{{{1, 2, 3},
+//		{4, 5, 6},
+//		{7, 8, 9}}},
+//		{{{1, 2, 3},
+//		{4, 5, 6},
+//		{7, 8, 9}}}
+//		});
+//	Tensor4D y = p.forward(x);
+//	std::cout << y.dimensions() << std::endl;
+//	std::cout << y << std::endl;
+//	Tensor4D z = p.backward(y);
+//	std::cout << z.dimensions() << std::endl;
+//	std::cout << z << std::endl;
+//}
 
 
 int main()

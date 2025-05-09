@@ -17,8 +17,9 @@ Tensor2D Affine::forward(const Tensor2D& x)
 	x_ = x;
 
 	auto x_matrix = ct2m(x);
+	auto w_matrix = t2m(w_);
 
-	RowMatrix result_matrix = (x_matrix * w_).colwise() + b_;
+	RowMatrix result_matrix = (x_matrix * w_matrix).colwise() + b_;
 	//Tensor2D result(result_matrix.rows(), result_matrix.cols());
 	//result = Eigen::TensorMap<Tensor2D>(result_matrix.data(), result_matrix.rows(), result_matrix.cols());
 	Tensor2D result = m2t(result_matrix);
@@ -62,10 +63,12 @@ TensorVariant Affine::backward(const Tensor2D& dout)
 	Eigen::Map<const RowMatrix> dout_matrix(dout.data(), rows, cols);
 
 	auto x_matrix = t2m(x_);
-	dw_ = x_matrix.transpose() * dout_matrix;
+	auto w_matrix = t2m(w_);
+	RowMatrix dw_matrix = x_matrix.transpose() * dout_matrix;
+	dw_ = m2t(dw_matrix);
 	db_ = dout_matrix.rowwise().sum();
 
-	RowMatrix dx = dout_matrix * w_.transpose();
+	RowMatrix dx = dout_matrix * w_matrix.transpose();
 	/*Tensor2D result = Eigen::TensorMap<Tensor2D>(dx.data(), dx.rows(), dx.cols());*/
 	Tensor2D result = m2t(dx);
 
